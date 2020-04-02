@@ -30,7 +30,16 @@ exports.resolveObject = urlResolveObject;
 exports.format = urlFormat;
 
 exports.Url = Url;
-exports.URL = Url;   //Fix for simple-oauth package
+
+exports.URL = URL;   //Fix for simple-oauth package
+
+function URL(source, relative) {
+  if (!relative) {
+    return urlParse(source, false, false)
+  }
+  const full_url = relative + source;
+  return urlParse(full_url, false, false)
+}
 
 function Url() {
   this.protocol = null;
@@ -371,12 +380,14 @@ Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
 
 // format a parsed object into a url string
 function urlFormat(obj) {
+
   // ensure it's an object, and not a string url.
   // If it's an obj, this is a no-op.
   // this way, you can call url_format() on strings
   // to clean up potentially wonky urls.
   if (util.isString(obj)) obj = urlParse(obj);
   if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
+
   return obj.format();
 }
 
@@ -445,6 +456,7 @@ Url.prototype.resolve = function(relative) {
 };
 
 function urlResolveObject(source, relative) {
+
   if (!source) return relative;
   return urlParse(source, false, true).resolveObject(relative);
 }
