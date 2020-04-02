@@ -30,7 +30,7 @@ exports.resolveObject = urlResolveObject;
 exports.format = urlFormat;
 
 exports.Url = Url;
-exports.URL = urlResolveObject;   //Fix for simple-oauth package
+exports.URL = Url;   //Fix for simple-oauth package
 
 function Url() {
   this.protocol = null;
